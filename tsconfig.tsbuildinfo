@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/controller/todocontroller.ts","./src/db/connection.ts","./src/middleware/auth.ts","./src/routes/todotaskrouter.ts","./src/routes/userrouter.ts","./src/service/todoservice.ts"],"version":"5.6.2"}
