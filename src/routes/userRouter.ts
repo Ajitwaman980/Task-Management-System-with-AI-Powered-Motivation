@@ -1,18 +1,17 @@
 import express from "express";
 const router = express.Router();
 import "dotenv/config";
-import { PrismaClient } from "@prisma/client";
-const prisma = new PrismaClient();
-import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import AuthVerify from "../middleware/auth";
-router.post("/new", async (req, res) => {
+import { TokenGenerator } from "../service/Token";
+import { findbyEmail } from "../service/UserService";
+import prisma from "../utils/prismaClient";
+
+router.post("/new", async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
     // check email alredy
-    const AlredyUser = await prisma.user.findFirst({
-      where: { email: email },
-    });
+    const AlredyUser = await findbyEmail(email);
     //   exiting
     if (AlredyUser) {
       res.status(400).json({ message: "User already exists" });
@@ -27,32 +26,24 @@ router.post("/new", async (req, res) => {
         password: haspassword,
       },
     });
-    // jwt token
-    if (!process.env.JWT_PRIVATE_KEY) {
-      throw new Error("someting went wrong");
-    }
-    const token = await jwt.sign(new_data, process.env.JWT_PRIVATE_KEY);
+    // token
+    const token = await TokenGenerator(new_data);
     // cookies set
     res.cookie("token", token);
     res.status(200).json({ message: "New user created sucessfully", new_data });
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Server error" });
+    next(err);
   }
 });
 
 // login
 
-router.post("/login", async (req, res) => {
+router.post("/login", async (req, res, next) => {
   try {
     const { email, password } = req.body;
     // checking user present or not
-    const user = await prisma.user.findFirst({
-      where: {
-        email: email,
-      },
-    });
-
+    const user = await findbyEmail(email);
+    // if user not find
     if (!user) {
       res.status(404).json({ message: "User not found" });
       return;
@@ -63,28 +54,25 @@ router.post("/login", async (req, res) => {
     if (!passwordMatching) {
       res.status(401).json({ message: "Invalid password" });
     }
-    if (!process.env.JWT_PRIVATE_KEY) {
-      throw new Error("someting went wrong");
-    }
-    // token generator
-    const token = await jwt.sign(user, process.env.JWT_PRIVATE_KEY);
+    // token
+    const token = await TokenGenerator(user);
     // cookies set
     res.cookie("token", token);
     // sending the response
     res.status(200).json({ message: "user login sucessfully", user });
   } catch (err) {
-    res.status(400).json({ err: "something wrong when user login " });
+    next(err);
   }
 });
 
 // logout
 
-router.get("/logout", AuthVerify, async (req, res) => {
+router.get("/logout", AuthVerify, async (req, res, next) => {
   try {
     res.cookie("token", "user not found");
     res.status(201).json({ message: "user logout sucessfully" });
   } catch (error) {
-    res.status(500).json({ error: "something went wrong when user logout" });
+    next(error);
   }
 });
 

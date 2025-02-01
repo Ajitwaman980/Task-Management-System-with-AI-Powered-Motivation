@@ -1,5 +1,4 @@
 import { PrismaClient } from "@prisma/client";
-import exp from "constants";
 const prisma = new PrismaClient();
 //  function to intercat with database
 
@@ -10,17 +9,16 @@ export async function AddNewTaskService(task: string, userID: any) {
       userId: userID,
     },
   });
-  console.log(newTask);
+  // console.log(newTask);
   return newTask;
 }
 
 // getting the all todos
-
-export async function GettingAllTodosService(UserId: number) {
+export async function GettingAllTodosService(UserId: number, done?: boolean) {
   const Alltodos = await prisma.todo.findMany({
-    where: { userId: UserId },
+    where: { userId: UserId, done: done },
   });
-  console.log(Alltodos);
+  // console.log(Alltodos);
   return Alltodos;
 }
 // deleted todo
@@ -29,7 +27,16 @@ export async function deleteTodoService(userID: any, id: number) {
   const deltodo = await prisma.todo.delete({
     where: { id: id },
   });
-  console.log(deltodo);
+  // console.log(deltodo);
   return deltodo;
 }
-// export default AddNewTask;
+// competed the task
+export async function taskcompletdService(id: number, done: boolean) {
+  const taskDone = await prisma.todo.update({
+    where: { id: id },
+    data: {
+      done: done,
+    },
+  });
+  return taskDone;
+}

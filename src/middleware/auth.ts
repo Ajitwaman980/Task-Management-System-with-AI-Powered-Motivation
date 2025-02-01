@@ -5,8 +5,8 @@ const AuthVerify = (req: Request, res: Response, next: NextFunction) => {
   const token = req.cookies.token;
 
   if (!token) {
-    console.log(token);
-    res.status(404).json({ error: "user not autho" });
+    // console.log(token);
+    res.status(404).json({ error: "User not authorized" });
     return;
   } // jwt token
   if (!process.env.JWT_PRIVATE_KEY) {

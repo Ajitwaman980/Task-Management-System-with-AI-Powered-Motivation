@@ -28,8 +28,16 @@ model Todo {
   updatedAt   DateTime @updatedAt
   userId Int
   user   User @relation(fields: [userId], references: [id])
+   rewardPoints RewardPoint[]
 
 }
+// progress point and reward
 
-
-// }
+model RewardPoint{
+  id Int @id @default(autoincrement())
+  point Int @default(0)
+  totalPoint Int
+  todoId Int
+  todo  Todo @relation(fields: [todoId],references: [id])
+}
+// } 
