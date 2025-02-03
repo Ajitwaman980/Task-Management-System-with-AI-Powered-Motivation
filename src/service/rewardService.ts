@@ -54,3 +54,4 @@ export async function totolpoint(userid: any) {
   console.log("Total Points:", totalPoint._sum.point || 0);
   return totalPoint;
 }
+//  motivation

@@ -39,5 +39,7 @@ model RewardPoint{
   totalPoint Int
   todoId Int
   todo  Todo @relation(fields: [todoId],references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 // } 

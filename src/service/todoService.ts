@@ -32,6 +32,16 @@ export async function deleteTodoService(userID: any, id: number) {
 }
 // competed the task
 export async function taskcompletdService(id: number, done: boolean) {
+  // include in Prisma is similar to populate in MongoDB!
+  const alredyCompleted = await prisma.todo.findUnique({
+    where: { id: id },
+    include: { rewardPoints: true },
+  });
+  // check completed or not
+  if (alredyCompleted && alredyCompleted.done) {
+    return { message: "The task has already been completed." };
+  }
+
   const taskDone = await prisma.todo.update({
     where: { id: id },
     data: {

@@ -13,10 +13,10 @@ import {
 // new task function
 
 // todo
-router.post("/new", AuthVerify, NewTask); //new task
-router.post("/task-complete/:id", AuthVerify, TaskCompeted); //task comepled
-router.get("/AllTask", AuthVerify, AllTask); //getting all task
-router.delete("/DeleteTodo/:id", AuthVerify, DeleteTodo); //delete task
+router.get("/task-complete/:id", AuthVerify, TaskCompeted); //task comepled
 router.get("/all/completed", AuthVerify, Allcompletedtask); //getting all complted task
 router.get("/check/score", AuthVerify, analytics_user_performance); //analytics user
+router.get("/AllTask", AuthVerify, AllTask); //getting all task
+router.post("/new", AuthVerify, NewTask); //new task
+router.delete("/DeleteTodo/:id", AuthVerify, DeleteTodo); //delete task
 export default router;
