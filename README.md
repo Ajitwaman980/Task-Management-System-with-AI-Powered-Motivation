@@ -20,11 +20,12 @@ This project is a **Task Management System** built using **Node.js**, **Express*
 
 ### Prerequisites:
 - **Node.js** (version 14 or higher)
-- **npm** or **yarn**
-- **Supabase** account (for authentication and database setup)
+- **npm** 
+- **Supabase** account 
 
 ### Installation:
 
 1. **Clone the Repository:**
-   ```bash
+   ```
    git clone https://github.com/Ajitwaman980/Task-Management-System-with-AI-Powered-Motivation.git
+   ```
