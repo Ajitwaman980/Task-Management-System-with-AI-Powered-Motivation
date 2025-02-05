@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { DeleteTodo } from "../controller/todoController";
 const prisma = new PrismaClient();
 //  function to intercat with database
 
@@ -22,7 +23,10 @@ export async function GettingAllTodosService(UserId: number, done?: boolean) {
   return Alltodos;
 }
 // deleted todo
-export async function deleteTodoService(userID: any, id: number) {
+export async function deleteTodoService(userID: any, id: any) {
+  const deleteReward = await prisma.rewardPoint.deleteMany({
+    where: { todoId: id },
+  });
   // detetd by id
   const deltodo = await prisma.todo.delete({
     where: { id: id },

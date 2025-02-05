@@ -4,8 +4,17 @@ import cookieParser from "cookie-parser";
 import { limiter } from "./middleware/rateLimiter"; //prvent dos attack
 import { errorHandling } from "./utils/errorHandler";
 const app = express();
+import cors from "cors";
 // db
 import connection from "./db/connection";
+
+// connection frontend
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 // routes
 import todoTaskRouter from "./routes/todoTaskRouter";
 import UserRouter from "./routes/userRouter";

@@ -28,7 +28,7 @@ model Todo {
   updatedAt   DateTime @updatedAt
   userId Int
   user   User @relation(fields: [userId], references: [id])
-   rewardPoints RewardPoint[]
+   rewardPoints RewardPoint[] 
 
 }
 // progress point and reward

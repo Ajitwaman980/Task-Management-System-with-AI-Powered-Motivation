@@ -5,7 +5,10 @@ import {
   taskcompletdService,
 } from "../service/todoService";
 import { rewardPoint, totolpoint } from "../service/rewardService";
-import { generateMotivationMessage } from "../service/generate_Motivation_Message ";
+import {
+  generateMotivationMessage,
+  generateprogress,
+} from "../service/generate_Motivation_Message ";
 import prisma from "../utils/prismaClient";
 
 import express, { Request, Response } from "express";
@@ -38,14 +41,14 @@ export const NewTask = async (req: Request, res: Response) => {
 export const AllTask = async (req: Request, res: Response) => {
   try {
     const userId: any = (req as any).user.id;
-    console.log("User ID:", userId);
+    // console.log("User ID:", userId);
 
     const alltodos = await GettingAllTodosService(userId);
-    console.log(alltodos);
+    // console.log(alltodos);
 
     res.status(200).json({ message: "All todos", alltodos });
   } catch (error) {
-    console.log(error, "getting all tasks");
+    // console.log(error, "getting all tasks");
     res.status(500).json({ error: "Something went wrong..." });
   }
 };
@@ -59,7 +62,7 @@ export const DeleteTodo = async (req: Request, res: Response) => {
     const deltodo = await deleteTodoService(userID, id);
     res.status(200).json({ message: "Deleted todo", deltodo });
   } catch (error) {
-    console.log(error, "deleting task");
+    // console.log(error, "deleting task");
     res.status(500).json({ error: "Something went wrong..." });
   }
 };
@@ -98,7 +101,7 @@ export const TaskCompeted = async (req: Request, res: Response) => {
       reward,
     });
   } catch (error) {
-    console.log(error, "updating task completion");
+    // console.log(error, "updating task completion");
     res
       .status(500)
       .json({ error: "Something went wrong when updating the task" });
@@ -109,15 +112,15 @@ export const TaskCompeted = async (req: Request, res: Response) => {
 export const Allcompletedtask = async (req: Request, res: Response) => {
   try {
     const userId: any = (req as any).user.id;
-    console.log("User ID:", userId);
+    // console.log("User ID:", userId);
 
     // Get completed tasks
     const completedTask = await GettingAllTodosService(userId, true);
-    console.log(completedTask);
+    // console.log(completedTask);
 
     res.status(200).json({ message: "All completed tasks", completedTask });
   } catch (error) {
-    console.log(error, "getting all completed tasks");
+    // console.log(error, "getting all completed tasks");
     res.status(500).json({ error: "Something went wrong..." });
   }
 };
@@ -130,11 +133,14 @@ export const analytics_user_performance = async (
   try {
     const userid = (req as any).user.id;
     const totalPoint = await totolpoint(userid);
+    const username: string = (req as any).user.name;
     console.log(`User ${userid} has total points:`, totalPoint);
+    const motivationalmess = await generateprogress(username);
 
     res.status(200).json({
       message: `Total points: ${totalPoint._sum.point}`,
       totalPoint,
+      motivationalmess,
     });
   } catch (error) {
     console.log(error, "getting user analytics");

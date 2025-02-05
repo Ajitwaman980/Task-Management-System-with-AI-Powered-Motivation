@@ -22,10 +22,27 @@ export async function generateMotivationMessage(
 
     const result = await model.generateContent(prompt);
     const response = await result.response.text();
-    console.log(response);
+    // console.log(response);
     return response || "Keep going! You're doing great!";
   } catch (error) {
     console.error("Error generating motivation message:", error);
     return "Stay positive and keep pushing forward!";
+  }
+}
+
+// progress motivation message
+export async function generateprogress(username: string) {
+  try {
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+
+    const prompt = `Acknowledge ${username} for successfully completing their task. Highlight the accomplishment and celebrate the success in a positive and encouraging way.`;
+
+    const result = await model.generateContent(prompt);
+    const response = await result.response.text();
+    // console.log(response);
+    return response || "Great job on completing your task!";
+  } catch (error) {
+    console.error("Error generating task completion message:", error);
+    return "Congratulations on completing your task!";
   }
 }
