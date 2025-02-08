@@ -3,7 +3,8 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
+import AuthContext from "../context/AuthProvider";
+const BASE_URL_API = process.env.BASE_URL_API;
 const Profile = () => {
   const [allTask, setTask] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -12,13 +13,19 @@ const Profile = () => {
   async function alltaskhandle() {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:3000/todo/AllTask", {
+      const response = await axios.get(`http://localhost:3000/todo/AllTask`, {
         withCredentials: true,
       });
+
       if (response.status === 200) {
         setTask(response.data.alltodos);
       }
     } catch (error) {
+      if (error.response && error.response.status === 404) {
+        toast.error("User not logged in or signed up. Please try again.");
+      } else {
+        toast.error("Error fetching tasks. Please try again.");
+      }
       console.error("Error fetching tasks:", error);
     }
     setLoading(false);
@@ -28,7 +35,7 @@ const Profile = () => {
     setActionLoading(taskId);
     try {
       const response = await axios.delete(
-        `http://localhost:3000/todo/DeleteTodo/${taskId}`,
+        `${BASE_URL_API}/todo/DeleteTodo/${taskId}`,
         { withCredentials: true }
       );
       if (response.status === 200) {
@@ -36,6 +43,11 @@ const Profile = () => {
         toast.success("Task deleted successfully!");
       }
     } catch (error) {
+      if (error.response && error.response.status === 404) {
+        toast.error("User not logged in or signed up. Please try again.");
+      } else {
+        toast.error("Error fetching tasks. Please try again.");
+      }
       toast.error("Error deleting task, please try again.");
     }
     setActionLoading(null);
@@ -45,7 +57,7 @@ const Profile = () => {
     setActionLoading(taskId);
     try {
       const response = await axios.get(
-        `http://localhost:3000/todo/task-complete/${taskId}`,
+        `${BASE_URL_API}/todo/task-complete/${taskId}`,
         { withCredentials: true }
       );
       if (response.status === 201) {
@@ -57,6 +69,11 @@ const Profile = () => {
         );
       }
     } catch (error) {
+      if (error.response && error.response.status === 404) {
+        toast.error("User not logged in or signed up. Please try again.");
+      } else {
+        toast.error("Error fetching tasks. Please try again.");
+      }
       toast.error("Error completing task, please try again.");
     }
     setActionLoading(null);

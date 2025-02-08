@@ -3,17 +3,15 @@ import React, { useState } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+const BASE_URL_API = process.env.BASE_URL_API;
 const Progress = () => {
   const [points, setPoints] = useState(null);
 
   async function fetchProgress() {
     try {
-      const response = await axios.get(
-        "http://localhost:3000/todo/check/score",
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.get(`${BASE_URL_API}/todo/check/score`, {
+        withCredentials: true,
+      });
 
       if (response.status === 200) {
         setPoints(response.data.totalPoint._sum.point || 0);

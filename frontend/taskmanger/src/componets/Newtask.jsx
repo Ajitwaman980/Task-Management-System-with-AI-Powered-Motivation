@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+const BASE_URL_API = process.env.BASE_URL_API;
 const Newtask = () => {
   const navigate = useNavigate();
   const {
@@ -14,7 +15,7 @@ const Newtask = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        "http://localhost:3000/todo/new",
+        `${BASE_URL_API}/todo/new`,
         { task: data.task },
         { withCredentials: true }
       );
@@ -23,6 +24,11 @@ const Newtask = () => {
         alert("Task created successfully!");
       }
     } catch (error) {
+      if (error.response && error.response.status === 404) {
+        toast.error("User not logged in or signed up. Please try again.");
+      } else {
+        toast.error("Error fetching tasks. Please try again.");
+      }
       console.error("Error creating task:", error);
       alert("Error creating task, please try again.");
     }
