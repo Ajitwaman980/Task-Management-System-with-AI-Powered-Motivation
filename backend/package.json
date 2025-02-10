@@ -1,5 +1,5 @@
 {
-  "name": "your-project-name",
+  "name": "Task-Management-System-with-AI-Powered-Motivation",
   "version": "1.0.0",
   "scripts": {
     "build": "tsc",
