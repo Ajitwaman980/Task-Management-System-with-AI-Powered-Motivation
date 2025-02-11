@@ -19,7 +19,7 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(
-        `${BASE_URL_API}/user/new`,
+        `http://localhost:3000/user/new`,
         {
           name: data.name,
           email: data.email,

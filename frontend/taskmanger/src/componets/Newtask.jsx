@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 const BASE_URL_API = process.env.BASE_URL_API;
 const Newtask = () => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const Newtask = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        `${BASE_URL_API}/todo/new`,
+        `http://localhost:3000/todo/new`,
         { task: data.task },
         { withCredentials: true }
       );

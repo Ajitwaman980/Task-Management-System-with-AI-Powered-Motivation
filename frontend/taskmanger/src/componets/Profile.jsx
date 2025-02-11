@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -41,7 +41,7 @@ const Profile = () => {
     setActionLoading(taskId);
     try {
       const response = await axios.delete(
-        `${BASE_URL_API}/todo/DeleteTodo/${taskId}`,
+        `http://localhost:3000/todo/DeleteTodo/${taskId}`,
         { withCredentials: true }
       );
       if (response.status === 200) {
@@ -63,7 +63,7 @@ const Profile = () => {
     setActionLoading(taskId);
     try {
       const response = await axios.get(
-        `${BASE_URL_API}/todo/task-complete/${taskId}`,
+        `http://localhost:3000/todo/task-complete/${taskId}`,
         { withCredentials: true }
       );
       if (response.status === 201) {
@@ -84,6 +84,10 @@ const Profile = () => {
     }
     setActionLoading(null);
   }
+  // user useEffect
+  useEffect(() => {
+    alltaskhandle();
+  }, []);
 
   return (
     <div className="p-6 max-w-4xl mx-auto min-h-screen flex flex-col">

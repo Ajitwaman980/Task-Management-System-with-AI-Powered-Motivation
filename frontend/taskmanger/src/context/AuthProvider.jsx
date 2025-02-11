@@ -1,5 +1,5 @@
 import React, { createContext, useState } from "react";
-
+import axios from "axios";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -14,8 +14,13 @@ export const AuthProvider = ({ children }) => {
 
   // Logout function
   const logout = () => {
-    setIsLogin(false);
-    setAuthUser(null);
+    const response = axios.get("http://localhost:3000/user/logout", {
+      withCredentials: true,
+    });
+    if (response.status === 200) {
+      setIsLogin(false);
+      setAuthUser(null);
+    }
   };
 
   return (

@@ -6,13 +6,15 @@ export async function rewardPoint(todoId: number, point: number = 20) {
     const existingTask = await prisma.todo.findUnique({
       where: { id: todoId },
     });
+    console.log("this is todo id", todoId);
+    console.log("existingTask", existingTask);
 
     if (!existingTask) {
       throw new Error(`Task with id ${todoId} not found.`);
     }
 
-    const existingReward = await prisma.rewardPoint.findUnique({
-      where: { id: todoId },
+    const existingReward = await prisma.rewardPoint.findFirst({
+      where: { todoId: todoId },
     });
 
     if (existingReward) {
