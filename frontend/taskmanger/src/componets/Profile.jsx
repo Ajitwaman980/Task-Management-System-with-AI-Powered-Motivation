@@ -1,14 +1,20 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AuthContext from "../context/AuthProvider";
+import { AuthContext } from "../context/AuthProvider";
 const BASE_URL_API = process.env.BASE_URL_API;
 const Profile = () => {
+  const { isLogin, authUser, logout } = useContext(AuthContext);
   const [allTask, setTask] = useState([]);
   const [loading, setLoading] = useState(false);
   const [actionLoading, setActionLoading] = useState(null);
+
+  // login check
+  if (!isLogin) {
+    return <p>user not login</p>;
+  }
 
   async function alltaskhandle() {
     setLoading(true);

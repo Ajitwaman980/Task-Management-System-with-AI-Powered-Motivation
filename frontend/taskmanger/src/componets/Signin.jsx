@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
+const BASE_URL_API = process.env.BASE_URL_API;
+import { AuthContext } from "../context/AuthProvider";
 const Signin = () => {
   // Form Hook
+  const { login } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -20,7 +22,7 @@ const Signin = () => {
 
     try {
       const response = await axios.post(
-        `${BASE_URL_API}/user/login`,
+        `http://localhost:3000/user/login`,
         {
           email: data.email,
           password: data.password,
@@ -30,6 +32,8 @@ const Signin = () => {
 
       if (response.status === 200) {
         console.log("Login successful:", response.data);
+
+        login(response.data.user);
         navigate("/profile");
       }
     } catch (error) {
