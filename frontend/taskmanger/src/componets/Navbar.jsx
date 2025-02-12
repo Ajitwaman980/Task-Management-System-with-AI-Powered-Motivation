@@ -20,12 +20,14 @@ const Navbar = () => {
             <span className="text-white font-medium">
               Welcome, {authUser?.name || "User"}!
             </span>
-            <button
-              onClick={logout}
-              className="bg-red-500 text-white rounded-md py-2 px-4"
-            >
-              Logout
-            </button>
+            <Link to="/login">
+              <button
+                onClick={logout}
+                className="bg-red-500 text-white rounded-md py-2 px-4"
+              >
+                Logout
+              </button>
+            </Link>
           </>
         ) : (
           <>

@@ -10,7 +10,7 @@ const Progress = () => {
   async function fetchProgress() {
     try {
       const response = await axios.get(
-        `http://localhost:3000/todo/check/score`,
+        "https://task-management-system-with-ai-powered.onrender.com/todo/check/score",
         {
           withCredentials: true,
         }

@@ -19,7 +19,7 @@ const SignUp = () => {
 
     try {
       const response = await axios.post(
-        `http://localhost:3000/user/new`,
+        `https://task-management-system-with-ai-powered.onrender.com/user/new`,
         {
           name: data.name,
           email: data.email,

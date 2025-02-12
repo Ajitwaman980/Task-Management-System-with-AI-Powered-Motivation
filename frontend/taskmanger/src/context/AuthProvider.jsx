@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from "react";
 import axios from "axios";
-
+import { Link } from "react-router-dom";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
@@ -12,7 +12,7 @@ export const AuthProvider = ({ children }) => {
     try {
       setLoading(true);
       const response = await axios.get(
-        "http://localhost:3000/user/check-login",
+        "https://task-management-system-with-ai-powered.onrender.com/user/check-login",
         {
           withCredentials: true,
         }
@@ -26,7 +26,7 @@ export const AuthProvider = ({ children }) => {
         setAuthUser(null);
       }
     } catch (error) {
-      console.error("Error checking login status:", error);
+      // console.error("Error checking login status:", error);
       setIsLogin(false);
       setAuthUser(null);
     } finally {
@@ -47,15 +47,18 @@ export const AuthProvider = ({ children }) => {
   // Logout function
   const logout = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/user/logout", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "https://task-management-system-with-ai-powered.onrender.com/user/logout",
+        {
+          withCredentials: true,
+        }
+      );
       if (response.status === 201) {
         setIsLogin(false);
         setAuthUser(null);
       }
     } catch (error) {
-      console.error("Error logging out:", error);
+      // console.error("Error logging out:", error);
     }
   };
 

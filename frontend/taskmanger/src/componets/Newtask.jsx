@@ -16,7 +16,7 @@ const Newtask = () => {
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(
-        `http://localhost:3000/todo/new`,
+        `https://task-management-system-with-ai-powered.onrender.com/todo/new`,
         { task: data.task },
         { withCredentials: true }
       );

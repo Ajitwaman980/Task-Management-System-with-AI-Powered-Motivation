@@ -4,7 +4,8 @@ import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../context/AuthProvider";
-
+const BASE_URL_RENDER = import.meta.env.VITE_BASE_URL_RENDER;
+console.log("BASE_URL_RENDER", BASE_URL_RENDER);
 const Profile = () => {
   const { isLogin, authUser, logout } = useContext(AuthContext);
   const [allTask, setTask] = useState([]);
@@ -15,9 +16,12 @@ const Profile = () => {
   const alltaskhandle = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`http://localhost:3000/todo/AllTask`, {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        `https://task-management-system-with-ai-powered.onrender.com/todo/AllTask`,
+        {
+          withCredentials: true,
+        }
+      );
 
       if (response.status === 200) {
         setTask(response.data.alltodos);
@@ -38,7 +42,7 @@ const Profile = () => {
     setActionLoading(taskId);
     try {
       const response = await axios.delete(
-        `http://localhost:3000/todo/DeleteTodo/${taskId}`,
+        `https://task-management-system-with-ai-powered.onrender.com/todo/DeleteTodo/${taskId}`,
         { withCredentials: true }
       );
       if (response.status === 200) {
@@ -60,7 +64,7 @@ const Profile = () => {
     setActionLoading(taskId);
     try {
       const response = await axios.get(
-        `http://localhost:3000/todo/task-complete/${taskId}`,
+        `https://task-management-system-with-ai-powered.onrender.com/todo/task-complete/${taskId}`,
         { withCredentials: true }
       );
       if (response.status === 201) {
