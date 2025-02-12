@@ -7,6 +7,15 @@ import { TokenGenerator } from "../service/Token";
 import { findbyEmail } from "../service/UserService";
 import prisma from "../utils/prismaClient";
 
+router.get("/check-login", AuthVerify, (req, res, next) => {
+  try {
+    const user = (req as any).user;
+    res.status(200).json({ cookies: req.cookies, user });
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.post("/new", async (req, res, next) => {
   try {
     const { name, email, password } = req.body;
@@ -69,7 +78,8 @@ router.post("/login", async (req, res, next) => {
 
 router.get("/logout", AuthVerify, async (req, res, next) => {
   try {
-    res.cookie("token", "user not found");
+    // res.cookie("token", "user not found");
+    res.clearCookie("token");
     res.status(201).json({ message: "user logout sucessfully" });
   } catch (error) {
     next(error);
