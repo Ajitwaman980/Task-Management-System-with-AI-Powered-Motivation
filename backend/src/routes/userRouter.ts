@@ -41,6 +41,8 @@ router.post("/new", async (req, res, next) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
+      sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
     });
     res.status(200).json({ message: "New user created sucessfully", new_data });
   } catch (err) {
@@ -72,6 +74,8 @@ router.post("/login", async (req, res, next) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
+      sameSite: "none",
+      maxAge: 1000 * 60 * 60 * 24, // 1 day
     });
     // sending the response
     res.status(200).json({ message: "user login sucessfully", user });
