@@ -38,7 +38,10 @@ router.post("/new", async (req, res, next) => {
     // token
     const token = await TokenGenerator(new_data);
     // cookies set
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+    });
     res.status(200).json({ message: "New user created sucessfully", new_data });
   } catch (err) {
     next(err);
@@ -66,7 +69,10 @@ router.post("/login", async (req, res, next) => {
     // token
     const token = await TokenGenerator(user);
     // cookies set
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+    });
     // sending the response
     res.status(200).json({ message: "user login sucessfully", user });
   } catch (err) {
