@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-const BASE_URL_API = process.env.BASE_URL_API;
 import { AuthContext } from "../context/AuthProvider";
+
 const Signin = () => {
   // Form Hook
   const { login } = useContext(AuthContext);
@@ -12,14 +12,14 @@ const Signin = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
+  const [actionLoading, setActionLoading] = useState(false);
 
   // Navigator
   const navigate = useNavigate();
 
   // Handling function
   async function onSubmit(data) {
-    console.log("This is data:", data);
-
+    setActionLoading(true);
     try {
       const response = await axios.post(
         `http://localhost:3000/user/login`,
@@ -39,6 +39,8 @@ const Signin = () => {
     } catch (error) {
       console.log(error);
       navigate("/login");
+    } finally {
+      setActionLoading(false);
     }
   }
 
@@ -60,8 +62,13 @@ const Signin = () => {
               name="email"
               className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               placeholder="Enter your email"
-              {...register("email")}
+              {...register("email", { required: "Email is required" })}
             />
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           <div className="mb-4">
@@ -77,15 +84,44 @@ const Signin = () => {
               name="password"
               className="mt-1 block w-full p-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               placeholder="Enter your password"
-              {...register("password")}
+              {...register("password", { required: "Password is required" })}
             />
+            {errors.password && (
+              <p className="text-red-500 text-sm mt-1">
+                {errors.password.message}
+              </p>
+            )}
           </div>
 
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition"
+            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition flex justify-center items-center"
+            disabled={actionLoading}
           >
-            Sign In
+            {actionLoading ? (
+              <svg
+                className="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+                ></path>
+              </svg>
+            ) : (
+              "Sign In"
+            )}
           </button>
         </form>
       </div>

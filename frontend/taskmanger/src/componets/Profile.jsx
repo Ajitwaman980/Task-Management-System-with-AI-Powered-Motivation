@@ -4,19 +4,15 @@ import { Link } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AuthContext } from "../context/AuthProvider";
-const BASE_URL_API = process.env.BASE_URL_API;
+
 const Profile = () => {
   const { isLogin, authUser, logout } = useContext(AuthContext);
   const [allTask, setTask] = useState([]);
   const [loading, setLoading] = useState(false);
   const [actionLoading, setActionLoading] = useState(null);
 
-  // login check
-  if (!isLogin) {
-    return <p>user not login</p>;
-  }
-
-  async function alltaskhandle() {
+  // Fetch all tasks
+  const alltaskhandle = async () => {
     setLoading(true);
     try {
       const response = await axios.get(`http://localhost:3000/todo/AllTask`, {
@@ -35,9 +31,10 @@ const Profile = () => {
       console.error("Error fetching tasks:", error);
     }
     setLoading(false);
-  }
+  };
 
-  async function handleDelete(taskId) {
+  // Delete task
+  const handleDelete = async (taskId) => {
     setActionLoading(taskId);
     try {
       const response = await axios.delete(
@@ -52,14 +49,14 @@ const Profile = () => {
       if (error.response && error.response.status === 404) {
         toast.error("User not logged in or signed up. Please try again.");
       } else {
-        toast.error("Error fetching tasks. Please try again.");
+        toast.error("Error deleting task. Please try again.");
       }
-      toast.error("Error deleting task, please try again.");
     }
     setActionLoading(null);
-  }
+  };
 
-  async function handleComplete(taskId) {
+  // Complete task
+  const handleComplete = async (taskId) => {
     setActionLoading(taskId);
     try {
       const response = await axios.get(
@@ -78,16 +75,32 @@ const Profile = () => {
       if (error.response && error.response.status === 404) {
         toast.error("User not logged in or signed up. Please try again.");
       } else {
-        toast.error("Error fetching tasks. Please try again.");
+        toast.error("Error completing task. Please try again.");
       }
-      toast.error("Error completing task, please try again.");
     }
     setActionLoading(null);
-  }
-  // user useEffect
+  };
+
+  // Fetch tasks on component mount
   useEffect(() => {
     alltaskhandle();
   }, []);
+
+  // If user is not logged in
+  if (!isLogin) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <p className="font-bold text-3xl mb-4 text-gray-800">
+          User not logged in
+        </p>
+        <Link to="/login">
+          <button className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition duration-300">
+            Login
+          </button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 max-w-4xl mx-auto min-h-screen flex flex-col">
