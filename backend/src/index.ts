@@ -17,7 +17,7 @@ app.set("trust proxy", 1);
 // CORS Configuration (Allowing frontend connection)
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "*",
     credentials: true,
   })
 );
