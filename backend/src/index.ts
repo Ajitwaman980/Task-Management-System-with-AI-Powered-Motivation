@@ -18,7 +18,7 @@ app.set("trust proxy", 1);
 app.use(
   cors({
     origin:
-      "https://task-management-system-with-ai-powered-motivation.vercel.app",
+      "https://task-management-system-with-ai-powered-pxic.onrender.com",
     credentials: true,
   })
 );
