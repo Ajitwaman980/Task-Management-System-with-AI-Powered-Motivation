@@ -15,13 +15,13 @@ const app = express();
 app.set("trust proxy", 1);
 
 // CORS Configuration (Allowing frontend connection)
-app.use(
-  cors({
-    origin:
-      "https://task-management-system-with-ai-powered-pxic.onrender.com",
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: [
+    "https://task-management-system-with-ai-powered-pxic.onrender.com",
+    "https://task-management-system-with-ai-powered-motivation-v3rz.vercel.app"
+  ],
+  credentials: true
+}));
 
 // Middleware to parse JSON request bodies
 app.use(express.json());
