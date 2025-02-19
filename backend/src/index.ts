@@ -15,10 +15,10 @@ const app = express();
 app.set("trust proxy", 1);
 
 // CORS Configuration (Allowing frontend connection)
+
 app.use(
   cors({
-    origin:
-      "https://task-management-system-with-ai-powered-pxic.onrender.com",
+    origin: "*", // allow all
     credentials: true,
   })
 );
