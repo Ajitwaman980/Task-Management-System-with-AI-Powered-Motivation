@@ -15,10 +15,9 @@ const app = express();
 app.set("trust proxy", 1);
 
 // CORS Configuration (Allowing frontend connection)
-
 app.use(
   cors({
-    origin: "*", // allow all
+    origin: "*", // Allow
     credentials: true,
   })
 );
